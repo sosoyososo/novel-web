@@ -17,6 +17,15 @@ export class NovelDetail extends React.Component {
         {detail.content}
       </div>
     }
-    return item;
+    return (
+      <div>
+      <div onClick={() => {
+        if (this.props.back) {
+          this.props.back()
+        }
+      }}>Back</div>
+      {item}
+    </div>
+    )
   }
 }

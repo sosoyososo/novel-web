@@ -12,7 +12,10 @@ export class NovelSummary extends React.Component {
       that.setState({catelogs})
     })    
   }
-  showDetail(id) {    
+  showDetail(id) {   
+    if (this.props.showPage)  {
+      this.props.showPage("NovelDetail", id)
+    }
   }
   render() {
     let items = <div />
@@ -27,6 +30,15 @@ export class NovelSummary extends React.Component {
         )
       })
     }
-    return items
+    return (
+      <div>
+      <div onClick={() => {
+        if (this.props.back) {
+          this.props.back()
+        }
+      }}>Back</div>
+      {items}
+    </div>
+    )
   }
 }

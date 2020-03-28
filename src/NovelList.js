@@ -15,7 +15,10 @@ export class NovelList extends React.Component {
     })
   }
 
-  showSummary(id) {
+  showDetail(id) {   
+    if (this.props.showPage)  {
+      this.props.showPage("NovelSummary", id)
+    }
   }
 
   render() {
@@ -24,7 +27,7 @@ export class NovelList extends React.Component {
       items = this.state.list.map(item => {
         return (   
           <div onClick={() => {
-            this.showSummary(item.id) 
+            this.showDetail(item.id) 
           }}>
             <img className="coverImg"  src={item.coverURL} />
             <span>{item.title}</span>
