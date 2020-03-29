@@ -6,3 +6,19 @@
 .bottom-sep {  
   border: #ccc solid 1px;
 }
+
+.page-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;  
+}
+
+.page-item {
+  padding: 5px 10px;
+  margin: 5px;
+  border: solid 1px #eee;
+}
+
+.page-item-highligh {
+  color: red;
+}

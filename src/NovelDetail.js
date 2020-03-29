@@ -10,7 +10,7 @@ export class NovelDetail extends React.Component {
 
   loadDetail(id) {
     let that = this;
-    GetRequest('chapter/detail/' + id).then(res => {
+    GetRequest('chapter/detail/' + id, {page: 0}).then(res => {
       this.setState({detail: res, id, showCatelogsList: false})
       if (this.topRef) {
         this.topRef.scrollIntoView()
@@ -118,9 +118,10 @@ export class NovelDetail extends React.Component {
         for (var i = 0; i < pageCount; i ++) {          
           let catelogPage = i;
           let str = `${i * 100}-${(i + 1) * 100}`
+          let itemClassName = i == this.state.catelogPage ? 'page-item page-item-highligh' : 'page-item';
           pageItems.push((<span onClick={() => {
             this.setState({catelogPage})
-          }} className="page-item">      
+          }} className={itemClassName}>      
             {str}                  
           </span>))
         }

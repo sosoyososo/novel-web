@@ -6,13 +6,14 @@ import "./global.css";
 export class NovelList extends React.Component {  
   constructor(props) {
     super(props)
-    this.setState(props)
+    this.setState({...props})
+    this.loadPage(0)
   }
 
-  componentDidMount() {   
+  loadPage(page) {
     let that = this;
-    GetRequest("novel/list").then(list => {
-      that.setState({list})
+    GetRequest("novel/list", {page}).then(res => {
+      that.setState({...res, page})
     })
   }
 
@@ -24,6 +25,20 @@ export class NovelList extends React.Component {
 
   render() {
     let items = <div />
+    let pageItems = [];
+    if (this.state && this.state.total) {
+      let pagesCount = this.state.total/50;
+      if (this.state.total%50 > 0) {
+        pagesCount += 1;        
+      }
+      for (var i = 0; i < pagesCount; i ++) {
+        let pageStr = `${i+1}`;
+        let itemClassName = i == this.state.page ? 'page-item page-item-highligh' : 'page-item'
+        pageItems.push(<span className={itemClassName} onClick={() => {
+          this.loadPage(i)
+        }}>{pageStr}</span>)
+      }
+    }
     if (this.state && this.state.list) {
       items = this.state.list.map(item => {
         return (   
@@ -46,6 +61,7 @@ export class NovelList extends React.Component {
     return (
       <div className="flex-v">      
         {items}  
+        <div className="page-container">{pageItems}</div>
       </div>
     )
   }
