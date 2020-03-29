@@ -1,0 +1,36 @@
+.flex-v {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-h {
+  display: flex;
+  flex-direction: row;
+}
+
+.margin10 {
+  margin: 10px;
+}
+
+.flex-wraper {
+  flex-wrap : wrap;
+}
+
+.nav-back {
+  background-color: #cccccca0;
+  position: fixed;
+  right: 10px;  
+  bottom: 10px;
+  width: auto;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.chapter-item {
+  border: 1px solid #ddd;
+  margin: 10px 20px;
+  padding: 10px 5px;
+  width: 200px;      
+}

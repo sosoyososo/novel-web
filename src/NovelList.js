@@ -1,6 +1,7 @@
 import React from 'react';
 import {GetRequest} from './novelRequest';
-// import "./NovelList.css";
+import "./NovelList.css";
+import "./global.css";
 
 export class NovelList extends React.Component {  
   constructor(props) {
@@ -26,20 +27,24 @@ export class NovelList extends React.Component {
     if (this.state && this.state.list) {
       items = this.state.list.map(item => {
         return (   
-          <div onClick={() => {
+          <div className="flex-h margin10 bottom-sep" onClick={() => {
             this.showDetail(item.id) 
           }}>
-            <img className="coverImg"  src={item.coverURL} />
-            <span>{item.title}</span>
-            <span>{item.author}</span>
-            <p>{item.summary}</p>
+            <img className="margin10 coverImg"  src={item.coverURL} />
+            <div>
+              <div>
+                <span className="margin10">{item.title}</span>
+                <span className="margin10">{item.author}</span>
+              </div>
+              <p className="margin10">{item.summary}</p>
+            </div>            
           </div>
         )        
       })
     }
 
     return (
-      <div>      
+      <div className="flex-v">      
         {items}  
       </div>
     )

@@ -1,5 +1,6 @@
 import React from 'react';
 import {GetRequest} from './novelRequest';
+import "./global.css";
 
 export class NovelSummary extends React.Component {  
   constructor(props) {
@@ -22,7 +23,7 @@ export class NovelSummary extends React.Component {
     if (this.state && this.state.catelogs) {
       items = this.state.catelogs.map(item => {
         return (                    
-          <div onClick={() => { 
+          <div className="chapter-item" onClick={() => { 
             this.showDetail(item.id)
           }}>
             {item.title}
@@ -32,12 +33,14 @@ export class NovelSummary extends React.Component {
     }
     return (
       <div>
-      <div onClick={() => {
-        if (this.props.back) {
-          this.props.back()
-        }
-      }}>Back</div>
-      {items}
+        <div className="nav-back" onClick={() => {
+          if (this.props.back) {
+            this.props.back()
+          }
+        }}>Back</div>
+      <div className="flex-h flex-wraper">
+        {items}
+      </div>
     </div>
     )
   }
