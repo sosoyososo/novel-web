@@ -11,7 +11,7 @@ export class NovelDetail extends React.Component {
   loadDetail(id) {
     let that = this;
     GetRequest('chapter/detail/' + id).then(res => {
-      this.setState({detail: res, id})
+      this.setState({detail: res, id, showCatelogsList: false})
     })
   }
 
@@ -47,7 +47,7 @@ export class NovelDetail extends React.Component {
       return 
     }
     let list = this.props.otherInfo && this.props.otherInfo.list;    
-    let id = this.props.otherInfo.list[index-1].id;
+    let id = list[index-1].id;
     this.loadDetail(id)    
   }
 
@@ -56,7 +56,7 @@ export class NovelDetail extends React.Component {
   }
 
   hideCatelogs() {    
-    this.setState({showCatelogsList: false})
+    this.setState({showCatelogsList: false, catelogPage: 0})
   }
 
   render() {
@@ -90,19 +90,41 @@ export class NovelDetail extends React.Component {
     if (this.state && this.state.showCatelogsList) {      
       let list = this.props.otherInfo && this.props.otherInfo.list;
       if (list) {
-        let catelogItems = list.map(item => {
-          let highlightCls = item.id == this.state.id ? 'catelog-highlight' : '';
+        let page = this.state && this.state.catelogPage;
+        if (!page) {
+          page = 0
+        }
+        let catelogItems = list.filter((_, index) => {
+          return index >= page * 100 && index < (page + 1) * 100
+        })
+        .map(item => {
+          let itemClassName = item.id == this.state.id ? 'catelog-item catelog-highlight' : 'catelog-item';
           return (
-            <div className="catelog-item {highlightCls}" onClick={() => {
+            <div className={itemClassName} onClick={() => {
               this.loadDetail(item.id)
             }}>
               {item.title}
             </div>
           )
         });
+        let pageItems = [];
+        let pageCount = list.length / 100;
+        if (list.length % 100 > 0) {
+          pageCount += 1;
+        }                
+        for (var i = 0; i < pageCount; i ++) {          
+          let catelogPage = i;
+          let str = `${i * 100}-${(i + 1) * 100}`
+          pageItems.push((<span onClick={() => {
+            this.setState({catelogPage})
+          }} className="page-item">      
+            {str}                  
+          </span>))
+        }
         catelogListView = (
-          <div className="catelog-container">     
-            {catelogItems}               
+          <div className="catelog-top-container">     
+            <div className="catelog-container">{catelogItems}</div>            
+            <div className="page-container">{pageItems}</div>
           </div>
         )
       }                  
