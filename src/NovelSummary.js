@@ -15,7 +15,7 @@ export class NovelSummary extends React.Component {
   }
   showDetail(id) {   
     if (this.props.showPage)  {
-      this.props.showPage("NovelDetail", id)
+      this.props.showPage("NovelDetail", id, {list:this.state.catelogs})
     }
   }
   render() {

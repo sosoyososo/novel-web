@@ -11,10 +11,10 @@ class App extends React.Component {
     }
   }
 
-  showPage(key, id) {    
+  showPage(key, id, otherInfo) {    
     let router = this.state.router;
     router.push({
-      key, id
+      key, id, otherInfo
     })
     console.log("show page" + key)
     this.setState({router})
@@ -41,7 +41,7 @@ class App extends React.Component {
         case "NovelDetail":
           item = <NovelDetail showPage={this.showPage.bind(this)} back={() => {
             this.back()
-          }} id={itemMap.id} />
+          }} id={itemMap.id} otherInfo={itemMap.otherInfo} />
           break
         default:
           break

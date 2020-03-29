@@ -40,5 +40,29 @@
   background-color: #ddd;
   padding: 15px;
   line-height: 30px;
+}
 
+.catelog-jumper-item {
+  background-color: #bbbbbba0;
+  padding: 0 10px;  
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+
+  position: fixed;
+}
+
+.catelog-jumper-previous {
+  top: 50%;
+  left:0;
+}
+
+.catelog-jumper-next {
+  top: 50%;
+  right:0;
+}
+
+.catelog-jumper-catelogs {
+  right : 10px;
+  bottom: 70px;  
 }

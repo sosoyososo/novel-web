@@ -1,0 +1,24 @@
+.catelog-container {
+  position: fixed;
+  background-color: #ccccccdd;    
+  width: 400px;
+  left: -200px;
+  transform: translateX(50%);
+  max-height: 80%;
+  top: 10%;
+  overflow: scroll;  
+  
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.catelog-item {
+  padding: 10px 20px;
+  border-bottom: solid 1px #999;
+}
+
+.catelog-highlight {
+  color: red;
+  background-color: #aaaaaadd;
+}
