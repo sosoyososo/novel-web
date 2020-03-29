@@ -1,5 +1,6 @@
 import React from 'react';
 import {GetRequest} from './novelRequest';
+import './global.css';
 
 export class NovelDetail extends React.Component {    
   componentDidMount() {
@@ -19,12 +20,14 @@ export class NovelDetail extends React.Component {
     }
     return (
       <div>
-      <div onClick={() => {
-        if (this.props.back) {
-          this.props.back()
-        }
-      }}>Back</div>
-      {item}
+        <div className="nav-back" onClick={() => {
+          if (this.props.back) {
+            this.props.back()
+          }
+        }}>Back</div>
+      <div className="chapter-content">
+        {item}
+      </div>      
     </div>
     )
   }

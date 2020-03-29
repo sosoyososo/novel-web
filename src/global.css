@@ -34,3 +34,11 @@
   padding: 10px 5px;
   width: 200px;      
 }
+
+.chapter-content {    
+  color: #555;
+  background-color: #ddd;
+  padding: 15px;
+  line-height: 30px;
+
+}
