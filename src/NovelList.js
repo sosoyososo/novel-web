@@ -12,7 +12,7 @@ export class NovelList extends React.Component {
 
   loadPage(page) {
     let that = this;
-    GetRequest("novel/list", {page}).then(res => {
+    GetRequest("novel/list", {page, size: 50}).then(res => {
       that.setState({...res, page})
     })
   }
