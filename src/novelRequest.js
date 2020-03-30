@@ -3,7 +3,7 @@ export function GetRequest(url, parameter) {
   if (parameter) {
     bodyStr = JSON.stringify(parameter)
   }
-  return fetch("http://localhost:8020/" + url, {
+  return fetch("http://47.103.193.221/novel-api/" + url, {
     body: bodyStr,
     method: 'POST',
   })
