@@ -15,7 +15,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pub":"react-scripts build; rsync -vzrtopg --progress -e ssh --delete ./build/ root@47.103.193.221:/usr/share/nginx/html/novel-web/"
   },
   "eslintConfig": {
     "extends": "react-app"
