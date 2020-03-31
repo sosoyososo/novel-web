@@ -5,19 +5,29 @@ import {NovelDetail} from './NovelDetail';
 
 class App extends React.Component {  
   constructor(props) {
-    super(props)
-    this.state = {
-      router: []
+    super(props)    
+    let router = JSON.parse(localStorage.getItem("router"));
+    if (!router) {
+      router = [];
     }
+    this.state = {router}
   }
-
+  updateRouter() {
+    if (this.state.router) {
+      localStorage.setItem("router", JSON.stringify(this.state.router))    
+    } else {
+      localStorage.setItem("router", JSON.stringify([]))    
+    }
+    console.log(this.state.router)
+  }
   showPage(key, id, otherInfo) {    
     let router = this.state.router;
     router.push({
       key, id, otherInfo
     })
-    console.log("show page" + key)
-    this.setState({router})
+    this.setState({router}, () => {
+      this.updateRouter()
+    })    
   }
 
   back() {
@@ -25,7 +35,9 @@ class App extends React.Component {
     if (this.state.router.length > 0) {
       router = router.filter((_, i) => i < this.state.router.length-1)
     }
-    this.setState({router})
+    this.setState({router}, () => {
+      this.updateRouter()
+    })    
   }
 
   render() {    

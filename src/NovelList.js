@@ -86,7 +86,7 @@ export class NovelList extends React.Component {
 
     let that = this;
     return (
-      <div className="flex-v">      
+      <div className="flex-v maxw100">      
         {/* <div className="search-container">
           <input placeholder="输入内容进行搜索" onChange={(e) => {  
             that.setState({searchKey: e.target.value}) 
