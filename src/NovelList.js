@@ -32,10 +32,11 @@ export class NovelList extends React.Component {
         pagesCount += 1;        
       }
       for (var i = 0; i < pagesCount; i ++) {
-        let pageStr = `${i+1}`;
+        let page = i;
+        let pageStr = `${page+1}`;
         let itemClassName = i == this.state.page ? 'page-item page-item-highligh' : 'page-item'
         pageItems.push(<span className={itemClassName} onClick={() => {
-          this.loadPage(i)
+          this.loadPage(page)
         }}>{pageStr}</span>)
       }
     }
