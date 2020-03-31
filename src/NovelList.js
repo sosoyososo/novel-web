@@ -17,6 +17,15 @@ export class NovelList extends React.Component {
     })
   }
 
+  search() {
+    if (this.state && this.state.searchKey) {
+      GetRequest('novel/search/' + this.state.searchKey)
+      .then(res => {
+        this.setState({searchList: res})
+      })
+    }
+  }
+
   showDetail(id) {   
     if (this.props.showPage)  {
       this.props.showPage("NovelSummary", id)
@@ -40,27 +49,52 @@ export class NovelList extends React.Component {
         }}>{pageStr}</span>)
       }
     }
+
+    let novelItemViewGenerator = (item) => {      
+      return (   
+        <div className="flex-h margin10 bottom-sep" onClick={() => {
+          this.showDetail(item.id) 
+        }}>
+          <img className="margin10 coverImg"  src={item.coverURL} />
+          <div>
+            <div>
+              <span className="margin10">{item.title}</span>
+              <span className="margin10">{item.author}</span>
+            </div>
+            <p className="margin10">{item.summary}</p>
+          </div>            
+        </div>
+      )  
+    }
     if (this.state && this.state.list) {
       items = this.state.list.map(item => {
-        return (   
-          <div className="flex-h margin10 bottom-sep" onClick={() => {
-            this.showDetail(item.id) 
-          }}>
-            <img className="margin10 coverImg"  src={item.coverURL} />
-            <div>
-              <div>
-                <span className="margin10">{item.title}</span>
-                <span className="margin10">{item.author}</span>
-              </div>
-              <p className="margin10">{item.summary}</p>
-            </div>            
-          </div>
-        )        
+        return novelItemViewGenerator(item) 
       })
     }
 
+    let searchResultView = <div />
+    if (this.state && this.state.searchList) {      
+      let resultList = this.state.searchList.map(item => {
+        return novelItemViewGenerator(item) 
+      })
+      searchResultView = (
+        <div>  
+          {resultList}             
+        </div>
+      )
+    }
+
+    let that = this;
     return (
       <div className="flex-v">      
+        {/* <div className="search-container">
+          <input placeholder="输入内容进行搜索" onChange={(e) => {  
+            that.setState({searchKey: e.target.value}) 
+          }} />
+          <span onClick={() => {
+            that.search()
+          }}>搜索</span>
+        </div>         */}
         {items}  
         <div className="page-container">{pageItems}</div>
       </div>
