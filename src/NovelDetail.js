@@ -11,9 +11,9 @@ export class NovelDetail extends React.Component {
   loadDetail(id) {
     let that = this;
     GetRequest('chapter/detail/' + id, {page: 0}).then(res => {
-      this.setState({detail: res, id, showCatelogsList: false})
-      if (this.topRef) {
-        this.topRef.scrollIntoView()
+      this.setState({detail: res, id, showCatelogsList: false})      
+      if (this.props.scrollToTop) {        
+        this.props.scrollToTop()
       }
     })
   }
@@ -135,7 +135,6 @@ export class NovelDetail extends React.Component {
     } 
     return (
       <div className="chapter-content">
-        <div ref={(el) => { this.topRef = el; }} />
         <div className="nav-back" onClick={() => {
           if (this.props.back) {
             this.props.back()

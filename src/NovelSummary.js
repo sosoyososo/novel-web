@@ -11,6 +11,9 @@ export class NovelSummary extends React.Component {
     let that = this;
     GetRequest("novel/chapters/"+this.props.id).then(catelogs => {      
       that.setState({catelogs})
+      if (this.props.scrollToTop) {        
+        this.props.scrollToTop()
+      }
     })    
   }
   showDetail(id) {   

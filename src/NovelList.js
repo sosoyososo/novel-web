@@ -14,6 +14,9 @@ export class NovelList extends React.Component {
     let that = this;
     GetRequest("novel/list", {page, size: 50}).then(res => {
       that.setState({...res, page})
+      if (this.props.scrollToTop) {        
+        this.props.scrollToTop()
+      }
     })
   }
 
@@ -22,6 +25,9 @@ export class NovelList extends React.Component {
       GetRequest('novel/search/' + this.state.searchKey)
       .then(res => {
         this.setState({searchList: res})
+        if (this.props.scrollToTop) {        
+          this.props.scrollToTop()
+        }
       })
     }
   }

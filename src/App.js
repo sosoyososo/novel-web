@@ -40,18 +40,24 @@ class App extends React.Component {
     })    
   }
 
+  scrollToTop() {
+    if (this.topRef) {
+      this.topRef.scrollIntoView()
+    }
+  }
+
   render() {    
-    let item = <NovelList showPage={this.showPage.bind(this)}  />
+    let item = <NovelList scrollToTop={this.scrollToTop.bind(this)} showPage={this.showPage.bind(this)}  />
     if (this.state.router.length > 0) {
       let itemMap =  this.state.router[this.state.router.length-1] ;
       switch (itemMap.key) {
         case 'NovelSummary':
-          item = <NovelSummary showPage={this.showPage.bind(this)} back={() => {
+          item = <NovelSummary scrollToTop={this.scrollToTop.bind(this)} showPage={this.showPage.bind(this)} back={() => {
             this.back()
           }} id={itemMap.id} />
           break
         case "NovelDetail":
-          item = <NovelDetail showPage={this.showPage.bind(this)} back={() => {
+          item = <NovelDetail scrollToTop={this.scrollToTop.bind(this)} showPage={this.showPage.bind(this)} back={() => {
             this.back()
           }} id={itemMap.id} otherInfo={itemMap.otherInfo} />
           break
@@ -59,7 +65,12 @@ class App extends React.Component {
           break
       }      
     }
-    return item
+    return (
+      <div>
+        <div ref={(el) => { this.topRef = el; }} />
+        {item}
+      </div>
+    )
   }
 }
 
