@@ -10,6 +10,7 @@ class App extends React.Component {
   componentDidMount() {
     this.setState({content: currentContent()})
     registerRouteChage("app_route_change", () => {
+      console.log('app_route_change')
       this.setState({content: currentContent()})
     })
   }

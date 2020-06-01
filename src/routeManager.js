@@ -61,13 +61,16 @@ export function routeToPreviousChapters() {
   if (!currentChapter || !currentPageChapterList || !currentNovel) {
     return
   }
+  if (!currentNovel.page) {
+    currentNovel.page = 0
+  }
+
   let index = currentPageChapterList.findIndex(item => item.id == currentChapter.id);
   if (index > 0) {
     currentChapter = currentPageChapterList[index-1]
     notifyRouteChange()
     return
   }
-
   if (currentNovel.page <= 0) {
     currentChapter = null
     currentPageChapterList = null
@@ -95,6 +98,9 @@ export function routeToPreviousChapters() {
 export function routeToNextChapters() {  
   if (!currentChapter || !currentPageChapterList || !currentNovel) {
     return
+  }
+  if (!currentNovel.page) {
+    currentNovel.page = 0
   }
   let index = currentPageChapterList.findIndex(item => item.id == currentChapter.id);
   if (index < currentPageChapterList.length - 1) {
