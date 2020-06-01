@@ -1,6 +1,7 @@
 import React from 'react';
 import {reqNovelList} from './novelRequest';
 import { Pagination } from 'antd';
+import {routeInsertNovel} from './routeManager';
 import 'antd/dist/antd.css';
 import './global.css';
 
@@ -11,6 +12,7 @@ class NovelList extends React.Component {
   }
 
   showDetail(novel) {
+    routeInsertNovel(novel)
   }
 
   loadPage(page) {

@@ -1,10 +1,14 @@
 import React from 'react';
-import './global';
-import { registerRouteChage, unregisterRouteChage } from './routeManager';
+import './global.css';
+import { 
+  registerRouteChage, 
+  unregisterRouteChage, 
+  currentRouteItem } from './routeManager';
 
 class Router extends React.Component {
   componentDidMount() {
-    registerRouteChage("router_content_change", () => {              
+    registerRouteChage("router_content_change", () => { 
+      this.setState({items: currentRouteItem()})             
     })
   }
 
@@ -13,7 +17,9 @@ class Router extends React.Component {
   }
 
   render() {    
-    return <div className="flex-h">      
+    let items = this.state && this.state.items ? this.state.items : <div />;
+    return <div className="flex-h">          
+      {items}
     </div>
   }
 }

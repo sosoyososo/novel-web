@@ -1,7 +1,9 @@
+import React from 'react';
 import NovelList from './novelList';
 import ChapterList from './chapterList';
 import ChapterDetail from './chapterDetail';
 import {reqChapterList} from './novelRequest';
+import './global.css';
 
 var observers = {}
 /**
@@ -12,7 +14,7 @@ var observers = {}
  * forward desc: 小说点击提示接着上一次读和重新开始
 */
 let currentNovel = null;
-let currentChapter = nul;
+let currentChapter = null;
 let currentPageChapterList = null;
 
 function notifyRouteChange() {  
@@ -24,8 +26,25 @@ function notifyRouteChange() {
   })
 }
 
-export function routeCurrentItems() {
-  return routeItems;
+
+function routeBackToHomePage() {  
+  currentNovel = null
+  currentPageChapterList = null
+  currentChapter = null
+  notifyRouteChange()
+}
+
+export function routeToPageInChapterList(page) {
+  if (!currentNovel) {
+    return
+  }
+  reqChapterList(currentNovel.id, page, 100).then(res => {
+    currentChapter = null
+    currentPageChapterList = res.list
+    currentNovel.page = page
+    currentNovel.total = res.total
+    notifyRouteChange()
+  })
 }
 
 export function routeInsertNovel(novel) {
@@ -33,45 +52,101 @@ export function routeInsertNovel(novel) {
   notifyRouteChange()
 }
 
-export function routeSetCurrentPageChapters(list) {
-  currentPageChapterList = list
-}
-
 export function routeInsertChapter(chapter) {
-  currentChapter = chapter
+  currentChapter = chapter  
   notifyRouteChange()
 }
 
-export function routeToPreviousChapters() {
-  if (!novel) {
+export function routeToPreviousChapters() {    
+  if (!currentChapter || !currentPageChapterList || !currentNovel) {
+    return
+  }
+  let index = currentPageChapterList.findIndex(item => item.id == currentChapter.id);
+  if (index > 0) {
+    currentChapter = currentPageChapterList[index-1]
+    notifyRouteChange()
     return
   }
 
-  if (currentChapter && currentPageChapterList) {    
-    let index = currentPageChapterList.findIndex(item => item.id == currentChapter.id);
-    if (index > 0) {
-      index -= 1
-      reqChapterList(novel.id, index, 20).then(res => {
-        currentPageChapterList = res.list
-        notifyRouteChange()        
-      })
-      return
-    } else {
-      currentChapter = null      
-      currentPageChapterList = null
-    }    
+  if (currentNovel.page <= 0) {
+    currentChapter = null
+    currentPageChapterList = null
+    currentNovel.page = 0
+    notifyRouteChange()
+    return    
   }
-  
-  notifyRouteChange()
+  let page = currentNovel.page-1;
+  reqChapterList(currentNovel.id, page, 20).then(res => {
+    currentPageChapterList = res.list;
+    if (!currentPageChapterList || currentPageChapterList.length <= 0) {
+      currentChapter = null
+      currentPageChapterList = null
+      currentNovel.page = 0
+      notifyRouteChange()
+      return    
+    }
+    currentChapter = currentPageChapterList[currentPageChapterList.length-1]
+    currentNovel.total = res.total;
+    currentNovel.page = page;
+    notifyRouteChange()
+  })  
 }
 
-export function routeToNextChapters() {
-  notifyRouteChange()
+export function routeToNextChapters() {  
+  if (!currentChapter || !currentPageChapterList || !currentNovel) {
+    return
+  }
+  let index = currentPageChapterList.findIndex(item => item.id == currentChapter.id);
+  if (index < currentPageChapterList.length - 1) {
+    currentChapter = currentPageChapterList[index+1]
+    notifyRouteChange()
+    return
+  }
+  let totalPage = Math.floor(currentNovel.total/20) + currentNovel.total%20 > 0 ? 1 : 0;
+  if (currentNovel.page >= totalPage-1) {    
+    currentChapter = null
+    currentPageChapterList = null
+    currentNovel.page = 0
+    notifyRouteChange()
+    return
+  }
+  let page = currentNovel.page+1
+  reqChapterList(currentNovel.id, page, 20).then(res => {
+    currentPageChapterList = res.list;
+    if (!currentPageChapterList || currentPageChapterList.length <= 0) {
+      currentChapter = null
+      currentPageChapterList = null
+      currentNovel.page = 0
+      notifyRouteChange()
+      return    
+    }
+    currentChapter = currentPageChapterList[0]
+    currentNovel.total = res.total
+    currentNovel.page = page
+    notifyRouteChange()
+  })  
 }
 
 export function routeBackToChapterList() {
-  chapters = []
+  currentChapter = null
+  currentPageChapterList = null
+  currentNovel.page = 0
   notifyRouteChange()
+}
+
+export function routeToChapterList(novel) {
+  currentChapter = null
+  currentPageChapterList = null
+  currentNovel = novel
+  currentNovel.page = 0
+  reqChapterList(novel.id, 0, 20).then(res => {
+    currentPageChapterList = res.list
+    currentNovel.total = res.total
+    notifyRouteChange()
+    return
+  })
+  notifyRouteChange()
+  return
 }
 
 export function registerRouteChage(key, callBack) {
@@ -82,32 +157,46 @@ export function unregisterRouteChage(key) {
   observers.delete(key)
 }
 
-export function currentContent() {  
-  if (!currentNovel) {
-    return <NovelList />
-  } else if (!chapters) {
-    return <ChapterList novel={currentNovel} page={0} />    
-  } else {
-    return <ChapterDetail chapter={chapters[chapters.length-1]} />
-  }
+export function currentContent() {
+  if (currentChapter) {
+    console.log('currentChapter')
+    return <ChapterDetail chapter={currentChapter} />
+  } 
+  if (currentNovel) {    
+    console.log('currentNovel')
+    if (!currentPageChapterList) {
+      reqChapterList(currentNovel.id, 0, 100).then(res => {
+        currentPageChapterList = res.list
+        currentNovel.total = res.total
+        currentChapter = null
+        notifyRouteChange()
+      })
+    }    
+    return <ChapterList novel={currentNovel} page={currentNovel.page} list={currentPageChapterList} total={currentNovel.total} />
+  }  
+  console.log('NovelList')
+  return <NovelList />
 }
 
 export function currentRouteItem() {
-  let items = [<div onClick={() => {
-    routeBackToHomePage()
-  }}>首页</div>]
-  if (novel) {
-    items.push(<div onClick={() => {
-      routeBackToChapterList()
-    }}>目录</div>)
-  } 
+  let items = []
   if (currentChapter) {
-    items.push(<div onClick={() => {
+    items.push(<div className="margin10" onClick={() => {
       routeToPreviousChapters()
     }}>上一页</div>)
-    items.push(<div onClick={() => {
+    items.push(<div className="margin10" onClick={() => {
+      routeBackToChapterList()
+    }}>目录</div>)
+  }    
+  if (currentNovel) {
+    items.push(<div className="margin10" className="margin10" onClick={() => {
+      routeBackToHomePage()
+    }}>首页</div>)
+  }
+  if (currentChapter) {
+    items.push(<div className="margin10" onClick={() => {
       routeToNextChapters()
     }}>下一页</div>)
   }
-  return <div>{items}</div>    
+  return <div className="flex-h">{items}</div>    
 }

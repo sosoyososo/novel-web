@@ -4,15 +4,11 @@ import {currentContent} from './routeManager';
 
 import {
   registerRouteChage, 
-  unregisterRouteChage, 
-  routeCurrentItems} from './routeManager';
+  unregisterRouteChage} from './routeManager';
 
-class App extends React.Component {  
-  constructor(props) {
-    super(props)
-  }
-
+class App extends React.Component {    
   componentDidMount() {
+    this.setState({content: currentContent()})
     registerRouteChage("app_route_change", () => {
       this.setState({content: currentContent()})
     })
@@ -23,12 +19,12 @@ class App extends React.Component {
   }
 
   render() {
-    let content = this.state.content ? this.state.content : <div />
+    let content = this.state && this.state.content ? this.state.content : <div />
     return (
-      <view>
+      <div style={{padding: '20px'}}>
         <Router />
         {content}
-      </view>
+      </div>
     )
   }
 }
