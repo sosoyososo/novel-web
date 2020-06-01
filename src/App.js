@@ -1,29 +1,34 @@
 import React from 'react';
-import {reqNovelList, reqChapterList, reqChapterDetail} from './novelRequest';
+import Router from './router';
+import {currentContent} from './routeManager';
+
+import {
+  registerRouteChage, 
+  unregisterRouteChage, 
+  routeCurrentItems} from './routeManager';
+
 class App extends React.Component {  
   constructor(props) {
-    super(props)        
-    reqNovelList(0, 10).then(res => {
-      console.log(res.total)
-      console.log(res.list)
-      if (res.list && res.list.length > 0) {        
-        let novel = res.list[0];
-        reqChapterList(novel.id, 0, 10).then(res => {
-          console.log(res.total)
-          console.log(res.list)
-          if (res.list && res.list.length > 0) {
-            let chapter = res.list[0];
-            reqChapterDetail(chapter.id).then(res => {
-              console.log(res);
-            })
-          }          
-        })
-      }      
+    super(props)
+  }
+
+  componentDidMount() {
+    registerRouteChage("app_route_change", () => {
+      this.setState({content: currentContent()})
     })
   }
+  
+  componentWillUnmount() {
+    unregisterRouteChage("app_route_change")
+  }
+
   render() {
+    let content = this.state.content ? this.state.content : <div />
     return (
-      <div></div>
+      <view>
+        <Router />
+        {content}
+      </view>
     )
   }
 }

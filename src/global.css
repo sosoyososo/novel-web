@@ -16,6 +16,11 @@
   flex-wrap : wrap;
 }
 
+.cover-img {
+  width: 90px;
+  height: 160px;
+}
+
 .nav-back {
   background-color: #cccccca0;
   position: fixed;
