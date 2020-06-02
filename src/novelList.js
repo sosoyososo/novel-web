@@ -1,21 +1,24 @@
 import React from 'react';
 import {reqNovelList} from './novelRequest';
 import { Pagination } from 'antd';
-import {routeInsertNovel} from './routeManager';
+import {
+  routeInsertNovel, 
+  routeSetCurrentNovelListPage, 
+  routeGetCurrentNovelListPage} from './routeManager';
 import 'antd/dist/antd.css';
 import './global.css';
 
 class NovelList extends React.Component {  
   constructor(props) {
     super(props)   
-    this.loadPage(0)
+    this.loadPage(routeGetCurrentNovelListPage())
   }
 
   showDetail(novel) {
     routeInsertNovel(novel)
   }
 
-  loadPage(page) {
+  loadPage(page) {    
     reqNovelList(page, 20).then(res => {
       this.setState({...res})
     })
@@ -42,6 +45,7 @@ class NovelList extends React.Component {
         total={this.state.total}
         pageSize={20}
         onChange={(page) => {
+          routeSetCurrentNovelListPage(page)
           this.loadPage(page)
         }}
       />

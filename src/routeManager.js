@@ -16,6 +16,7 @@ var observers = {}
 let currentNovel = null;
 let currentChapter = null;
 let currentPageChapterList = null;
+let currentNovelListPage = 0
 
 function notifyRouteChange() {  
   Object.keys(observers).forEach(key => {
@@ -32,6 +33,14 @@ function routeBackToHomePage() {
   currentPageChapterList = null
   currentChapter = null
   notifyRouteChange()
+}
+
+export function routeSetCurrentNovelListPage(page) {  
+  currentNovelListPage = page;
+}
+
+export function routeGetCurrentNovelListPage() {
+  return currentNovelListPage ;
 }
 
 export function routeToPageInChapterList(page) {
@@ -191,7 +200,7 @@ export function currentRouteItem() {
       routeToPreviousChapters()
     }}>上一页</div>)
     items.push(<div className="margin10" onClick={() => {
-      routeBackToChapterList()
+      routeToPageInChapterList(currentNovel.page)
     }}>目录</div>)
   }    
   if (currentNovel) {
