@@ -7,7 +7,7 @@ const envs = {
   }
 }
 
-const env = envs.dev;
+const env = envs.normal;
 
 function getRequest(url, parameter) {
   let bodyStr = ""

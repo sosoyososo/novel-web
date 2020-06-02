@@ -5,6 +5,10 @@ import './global.css';
 
 
 class ChapterList extends React.Component {
+  componentDidUpdate() {
+    window.scrollTo(0, 0)
+  }
+  
   render() {
     let chapters = <div />
     if (this.props.list) {

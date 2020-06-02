@@ -4,13 +4,17 @@ import { reqChapterDetail } from './novelRequest';
 class ChapterDetail extends React.Component {
   componentDidMount() {
     reqChapterDetail(this.props.chapter.id).then(res => {
-      this.setState({...res})
+      this.setState({...res}, () => {
+        window.scrollTo(0, 0)
+      })
     })
   }
   componentWillUpdate() {
     if (this.state && this.state.chapterID != this.props.chapter.id) {
       reqChapterDetail(this.props.chapter.id).then(res => {
-        this.setState({...res})
+        this.setState({...res}, () => {
+          window.scrollTo(0, 0)
+        })
       })
     }
   }
