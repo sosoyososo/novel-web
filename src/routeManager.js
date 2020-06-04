@@ -4,6 +4,7 @@ import ChapterList from './chapterList';
 import ChapterDetail from './chapterDetail';
 import {reqChapterList} from './novelRequest';
 import './global.css';
+import { Button } from 'antd';
 
 var observers = {}
 /**
@@ -196,22 +197,22 @@ export function currentContent() {
 export function currentRouteItem() {
   let items = []
   if (currentChapter) {
-    items.push(<div className="margin10" onClick={() => {
+    items.push(<Button className="margin10" onClick={() => {
       routeToPreviousChapters()
-    }}>上一页</div>)
-    items.push(<div className="margin10" onClick={() => {
+    }}>上一页</Button>)
+    items.push(<Button className="margin10" onClick={() => {
       routeToPageInChapterList(currentNovel.page)
-    }}>目录</div>)
+    }}>目录</Button>)
   }    
   if (currentNovel) {
-    items.push(<div className="margin10" className="margin10" onClick={() => {
+    items.push(<Button className="margin10" className="margin10" onClick={() => {
       routeBackToHomePage()
-    }}>首页</div>)
+    }}>首页</Button>)
   }
   if (currentChapter) {
-    items.push(<div className="margin10" onClick={() => {
+    items.push(<Button className="margin10" onClick={() => {
       routeToNextChapters()
-    }}>下一页</div>)
+    }}>下一页</Button>)
   }
   return <div className="flex-h">{items}</div>    
 }

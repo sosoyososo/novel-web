@@ -46,7 +46,7 @@ class NovelList extends React.Component {
         pageSize={20}
         onChange={(page) => {
           routeSetCurrentNovelListPage(page)
-          this.loadPage(page)
+          this.loadPage(page-1)
         }}
       />
     }
