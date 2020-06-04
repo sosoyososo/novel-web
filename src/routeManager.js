@@ -19,13 +19,13 @@ let currentChapter = null;
 let currentPageChapterList = null;
 let currentNovelListPage = 0
 
-function notifyRouteChange() {  
+function notifyRouteChange() { 
   Object.keys(observers).forEach(key => {
     let f = observers[key];
     if (f) {
       f()
     }
-  })
+  })  
 }
 
 
@@ -175,11 +175,9 @@ export function unregisterRouteChage(key) {
 
 export function currentContent() {
   if (currentChapter) {
-    console.log('currentChapter')
     return <ChapterDetail chapter={currentChapter} />
   } 
   if (currentNovel) {    
-    console.log('currentNovel')
     if (!currentPageChapterList) {
       reqChapterList(currentNovel.id, 0, 100).then(res => {
         currentPageChapterList = res.list
@@ -190,8 +188,7 @@ export function currentContent() {
     }    
     return <ChapterList novel={currentNovel} page={currentNovel.page ? currentNovel.page + 1 : 1} list={currentPageChapterList} total={currentNovel.total} />
   }  
-  console.log('NovelList')
-  return <NovelList />
+  return <NovelList page={currentNovelListPage} />
 }
 
 export function currentRouteItem() {

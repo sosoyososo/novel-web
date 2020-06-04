@@ -44,8 +44,9 @@ class NovelList extends React.Component {
         className="margin10"
         total={this.state.total}
         pageSize={20}
+        current={this.props.page}
         onChange={(page) => {
-          routeSetCurrentNovelListPage(page)
+          routeSetCurrentNovelListPage(page-1)
           this.loadPage(page-1)
         }}
       />
