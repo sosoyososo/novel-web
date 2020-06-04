@@ -8,7 +8,7 @@ class ChapterList extends React.Component {
   componentDidUpdate() {
     window.scrollTo(0, 0)
   }
-  
+
   render() {
     let chapters = <div />
     if (this.props.list) {
@@ -26,6 +26,7 @@ class ChapterList extends React.Component {
       <Pagination  className="margin10"
         total={this.props.total}
         pageSize={100}
+        current={this.props.page ? this.props.page - 1 : 0}
         onChange={(page) => {
           routeToPageInChapterList(page-1)
         }} />

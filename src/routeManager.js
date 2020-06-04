@@ -89,7 +89,7 @@ export function routeToPreviousChapters() {
     return    
   }
   let page = currentNovel.page-1;
-  reqChapterList(currentNovel.id, page, 20).then(res => {
+  reqChapterList(currentNovel.id, page, 100).then(res => {
     currentPageChapterList = res.list;
     if (!currentPageChapterList || currentPageChapterList.length <= 0) {
       currentChapter = null
@@ -118,7 +118,7 @@ export function routeToNextChapters() {
     notifyRouteChange()
     return
   }
-  let totalPage = Math.floor(currentNovel.total/20) + currentNovel.total%20 > 0 ? 1 : 0;
+  let totalPage = Math.floor(currentNovel.total/20) + (currentNovel.total%20 > 0 ? 1 : 0);
   if (currentNovel.page >= totalPage-1) {    
     currentChapter = null
     currentPageChapterList = null
@@ -127,7 +127,7 @@ export function routeToNextChapters() {
     return
   }
   let page = currentNovel.page+1
-  reqChapterList(currentNovel.id, page, 20).then(res => {
+  reqChapterList(currentNovel.id, page, 100).then(res => {
     currentPageChapterList = res.list;
     if (!currentPageChapterList || currentPageChapterList.length <= 0) {
       currentChapter = null
@@ -155,7 +155,7 @@ export function routeToChapterList(novel) {
   currentPageChapterList = null
   currentNovel = novel
   currentNovel.page = 0
-  reqChapterList(novel.id, 0, 20).then(res => {
+  reqChapterList(novel.id, 0, 100).then(res => {
     currentPageChapterList = res.list
     currentNovel.total = res.total
     notifyRouteChange()
@@ -188,7 +188,7 @@ export function currentContent() {
         notifyRouteChange()
       })
     }    
-    return <ChapterList novel={currentNovel} page={currentNovel.page} list={currentPageChapterList} total={currentNovel.total} />
+    return <ChapterList novel={currentNovel} page={currentNovel.page ? currentNovel.page + 1 : 1} list={currentPageChapterList} total={currentNovel.total} />
   }  
   console.log('NovelList')
   return <NovelList />
