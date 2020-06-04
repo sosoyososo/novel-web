@@ -188,7 +188,7 @@ export function currentContent() {
     }    
     return <ChapterList novel={currentNovel} page={currentNovel.page ? currentNovel.page + 1 : 1} list={currentPageChapterList} total={currentNovel.total} />
   }  
-  return <NovelList page={currentNovelListPage} />
+  return <NovelList />
 }
 
 export function currentRouteItem() {
