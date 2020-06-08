@@ -48,7 +48,7 @@ export function routeToPageInChapterList(page) {
   if (!currentNovel) {
     return
   }
-  reqChapterList(currentNovel.id, page, 100).then(res => {
+  reqChapterList(currentNovel.id, page, 50).then(res => {
     currentChapter = null
     currentPageChapterList = res.list
     currentNovel.page = page
@@ -89,7 +89,7 @@ export function routeToPreviousChapters() {
     return    
   }
   let page = currentNovel.page-1;
-  reqChapterList(currentNovel.id, page, 100).then(res => {
+  reqChapterList(currentNovel.id, page, 50).then(res => {
     currentPageChapterList = res.list;
     if (!currentPageChapterList || currentPageChapterList.length <= 0) {
       currentChapter = null
@@ -127,7 +127,7 @@ export function routeToNextChapters() {
     return
   }
   let page = currentNovel.page+1
-  reqChapterList(currentNovel.id, page, 100).then(res => {
+  reqChapterList(currentNovel.id, page, 50).then(res => {
     currentPageChapterList = res.list;
     if (!currentPageChapterList || currentPageChapterList.length <= 0) {
       currentChapter = null
@@ -155,7 +155,7 @@ export function routeToChapterList(novel) {
   currentPageChapterList = null
   currentNovel = novel
   currentNovel.page = 0
-  reqChapterList(novel.id, 0, 100).then(res => {
+  reqChapterList(novel.id, 0, 50).then(res => {
     currentPageChapterList = res.list
     currentNovel.total = res.total
     notifyRouteChange()
@@ -179,7 +179,7 @@ export function currentContent() {
   } 
   if (currentNovel) {    
     if (!currentPageChapterList) {
-      reqChapterList(currentNovel.id, 0, 100).then(res => {
+      reqChapterList(currentNovel.id, 0, 50).then(res => {
         currentPageChapterList = res.list
         currentNovel.total = res.total
         currentChapter = null

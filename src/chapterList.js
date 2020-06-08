@@ -25,7 +25,7 @@ class ChapterList extends React.Component {
       <div className="margin10 flex-h flex-wraper">{chapters}</div>
       <Pagination  className="margin10"
         total={this.props.total}
-        pageSize={100}
+        pageSize={50}
         current={this.props.page}
         onChange={(page) => {
           routeToPageInChapterList(page-1)
