@@ -30,8 +30,8 @@ export function reqChapterList(novelId, page, size) {
   return getRequest("novel/chapters/"+novelId, {page, size})
 }
 
-export function reqChapterDetail(chapterId) {
-  return getRequest('chapter/detail/' + chapterId)
+export function reqChapterDetail(novelId, chapterId) {
+  return getRequest('chapter/detail/' + novelId +'/' + chapterId)
 }
 
 
