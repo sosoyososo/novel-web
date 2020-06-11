@@ -22,7 +22,9 @@ class ChapterDetail extends React.Component {
 
   render() {
     let content = this.state && this.state.content ? <div>{this.state.content}</div>: <div/>
+    let title = this.state && this.state.title ? <div style={{fontWeight: "bolder"}}>{this.state.title}</div>: <div/>
     return <div style={{fontSize: '20px', lineHeight: '35px'}}>            
+      {title}
       {content}
     </div>
   }  

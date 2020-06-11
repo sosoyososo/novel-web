@@ -21,7 +21,8 @@ class ChapterList extends React.Component {
       })
     }
     
-    return <div>
+    return <div>      
+      <div style={{fontWeight:"bolder"}}>{this.props.novel.title}</div>
       <div className="margin10 flex-h flex-wraper">{chapters}</div>
       <Pagination  className="margin10"
         total={this.props.total}
